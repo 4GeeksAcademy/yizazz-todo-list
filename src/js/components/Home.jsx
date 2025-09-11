@@ -9,6 +9,7 @@ export const Home = () => {
 	});
 
 	const [contacts, setContacts] = useState([]);
+	const [error, setError] = useState(false)
 
 	const handleChange = (event) => {
 		setNewContact({
@@ -20,7 +21,11 @@ export const Home = () => {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 
-		
+		if (!newContact.name || !newContact.email || !newContact.phone ) {
+			setError((prev) => !prev)
+		return
+	}
+
 		setContacts([...contacts, newContact]);
 
 		
@@ -29,8 +34,17 @@ export const Home = () => {
 			email: "",
 			phone: "",
 		});
+
+	
+	
 	};
 
+
+// revisar para eliminar -->
+
+	// const deleteContact = (id) => {
+		
+	// }
 	return (
 		<div className="container mt-5 ">
 			<div className="row">
@@ -82,6 +96,15 @@ export const Home = () => {
 
 					
 				</div>
+				{error ?
+					<div className="col-12 col-md-7 mt-3 container">
+
+					<p className="alert alert-danger">
+						Todos los campos son obligatorios
+					</p>
+				</div> :null
+}
+
 				<div className="col-12 col-md-6 mt-5 border border-danger">
 						{contacts.map((item, index) => (
 							<div key={index} className="d-flex justify-content-between">
@@ -91,7 +114,8 @@ export const Home = () => {
 									<p>Correo: {item.email}</p>
 									<p>Teléfono: {item.phone}</p>
 								</div>
-								<div className="btn btn-danger">Delete</div>
+								<div className="btn btn-danger"
+								onClick={()=>deleteContact(index)}>Delete</div>
 							</div>
 						))}
 					</div>
